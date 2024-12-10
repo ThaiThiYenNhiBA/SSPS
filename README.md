@@ -53,7 +53,7 @@ Notice:
 - Open VSCode or any editor that already have *Live Server* extension installed
 - Start *Live Server* on `./client/src/pages/home.html` file at `localhost` port `5500`
 - Default login information is:
-  - `student@hcmut.edu.vn` for student
+  - `student@siu.edu.vn` for student
   - `staff@gmail.com` for staff
   - `spso@gmail.com` for spso
   - password: `example` for 3 of them
