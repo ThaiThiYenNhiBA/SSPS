@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIU Smart Printing System: Log in to the site</title>
+    <link rel="icon" href="https://lms.siu.edu.vn/pluginfile.php/1/core_admin/favicon/64x64/1723168007/favicon-16x16.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      /* Đặt hình nền và căn chỉnh */
+      body {
+          font-family: Arial, sans-serif;
+          background-image: url('../../assets/2023-09-27.jpg'); /* Đường dẫn tới ảnh nền */
+          background-size: cover;
+          background-position: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          margin: 0;
+      }
+
+      .login-container {
+          background: rgba(255, 255, 255, 0.9);
+          padding: 30px;
+          width: 320px;
+          border-radius: 10px;
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+          text-align: center;
+      }
+
+      .session-timeout {
+          color: #b94a48;
+          background-color: #f2dede;
+          padding: 10px;
+          border-radius: 4px;
+          margin-bottom: 20px;
+          font-size: 14px;
+      }
+
+      .form-group {
+          margin-bottom: 20px;
+          text-align: left;
+      }
+
+      .form-group label {
+          font-weight: bold;
+          font-size: 14px;
+          color: #333;
+          display: block;
+          margin-bottom: 5px;
+      }
+
+      .form-control {
+          width: 100%; /* Chiều rộng bằng với container */
+          padding: 12px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 14px;
+          box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến chiều rộng */
+      }
+
+      .loginbtn {
+          width: 100%; /* Chiều rộng bằng với ô nhập liệu */
+          padding: 12px;
+          background-color: #5a6268;
+          border: none;
+          color: #fff;
+          font-size: 16px;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-bottom: 15px;
+          box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến chiều rộng */
+      }
+
+      .loginbtn:hover {
+          background-color: #4e555b;
+      }
+
+      .login-with-google {
+          margin-top: 10px;
+          font-size: 14px;
+          color: #555;
+      }
+
+      .login-with-google button {
+          background: #fff;
+          border: 1px solid #ccc;
+          padding: 10px;
+          width: 100%; /* Chiều rộng bằng với nút đăng nhập */
+          cursor: pointer;
+          border-radius: 5px;
+          font-size: 14px;
+          box-sizing: border-box;
+      }
+
+      .footer {
+          margin-top: 20px;
+          font-size: 12px;
+          color: #777;
+          display: flex;
+          justify-content: space-between;
+      }
+
+      .footer a {
+          text-decoration: none;
+          color: #777;
+      }
+
+      .message {
+          padding: 10px;
+          margin: 10px 0;
+          border-radius: 5px;
+          text-align: center;
+      }
+
+      .success {
+          background-color: #d4edda;
+          color: #155724;
+      }
+
+      .error {
+          background-color: #f8d7da;
+          color: #721c24;
+      }
+  </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <form id="fm1">
+            <div class="form-group">
+                <label for="username">Username or email</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username or email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+            </div>
+            <button type="button" class="loginbtn" name="submitButton">Log in</button>
+        </form>
+
+        <div class="footer">
+            <a href="#">English (en)</a>
+            <a href="#">Cookies notice</a>
+        </div>
+    </div>
+
+    <script>
+        const url = 'http://127.0.0.1:3000';
+
+        const isEmpty = (str) => !str.trim().length;
+
+        $(() => {
+            if (localStorage.getItem('userInfo')) {
+                window.location.href = './home.html';
+                return;
+            }
+        });
+
+        $('[name=submitButton]').on('click', function (e) {
+            e.preventDefault();
+
+            const username = $('#username').val();
+            const password = $('#password').val();
+
+            if (isEmpty(username) || isEmpty(password)) {
+                $('[id=msg]').remove();
+                const errorDiv = `
+                <div id='msg' class='errors'>
+                    Please fill in all of the required fields!
+                </div>`;
+                $('#fm1').prepend(errorDiv);
+                return;
+            }
+
+            const body = { email: username, password: password };
+
+            $.post(url + '/account/login', body)
+                .done(function (data) {
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('url', url);
+                    window.location.href = './home.html';
+                })
+                .fail(() => {
+                    $('[id=msg]').remove();
+                    const errorDiv = `
+                    <div id='msg' class='errors'>
+                        The credentials you provided cannot be determined to be authentic.
+                    </div>`;
+                    $('#fm1').prepend(errorDiv);
+                });
+        });
+    </script>
+</body>
+</html>
