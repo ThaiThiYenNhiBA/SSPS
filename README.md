@@ -1,5 +1,5 @@
 # ssps
-Student Smart Printing Service for HCMUT students
+Student Smart Printing Service for SIU students
 
 ## ✋Introduction
 The university is intent to build a Student Smart Printing Service (HCMUT_SSPS) for serving 
