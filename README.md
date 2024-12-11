@@ -2,7 +2,7 @@
 Student Smart Printing Service for SIU students
 
 ## ✋Introduction
-The university is intent to build a Student Smart Printing Service (HCMUT_SSPS) for serving 
+The university is intent to build a Student Smart Printing Service (SIU_SSPS) for serving 
 students in its campuses to print their documents.
 
 ## Tech Stack
